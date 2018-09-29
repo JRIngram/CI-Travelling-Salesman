@@ -61,10 +61,8 @@ public class TravellingSalesman {
 		graph[3][3] = 0;
 
 		routes = new RouteSet(4);
-		System.out.println("Completed");
-		for (int i = 0; i < 24; i++) {
-			testRandomRoute(4);
-		}
+		double bestRoute = randomSearch(24, 4);
+		System.out.println("The best route found is: " + bestRoute);
 
 	}
 
@@ -128,14 +126,7 @@ public class TravellingSalesman {
 			//Creates a RouteSet that can store 11! routes.
 			routes = new RouteSet(11); // 11 is the maximum amount before heapspace error
 			
-			//Stores the bestRoute value, which is changed every time a better route is found.
-			double bestRoute = 0;
-			for (int i = 0; i < 5000; i++) {
-				double randomRoute = testRandomRoute(16);
-				if (randomRoute < bestRoute || bestRoute == 0) {
-					bestRoute = randomRoute;
-				}
-			}
+			double bestRoute = randomSearch(5000, index);
 			System.out.println("Best route found is: " + bestRoute);
 
 		} catch (FileNotFoundException e) {
@@ -340,18 +331,18 @@ public class TravellingSalesman {
 
 	/**
 	 * Creates a random route which includes all cities.
-	 * @param cityNumbers The number of cities in the graph.
+	 * @param numberOfCities The number of cities in the graph.
 	 * @return The cost of the entire route.
 	 */
-	public double testRandomRoute(int cityNumbers) {
+	public double testRandomRoute(int numberOfCities) {
 		Random rng = new Random();
 		double routeCost = 0;
 		while (routeCost == 0) {
 			String route = "";
-			for (int i = 0; i < cityNumbers; i++) {
-				String newCityCharacter = getCityCharacter(rng.nextInt(cityNumbers));
+			for (int i = 0; i < numberOfCities; i++) {
+				String newCityCharacter = getCityCharacter(rng.nextInt(numberOfCities));
 				while (route.contains(newCityCharacter)) {
-					newCityCharacter = getCityCharacter(rng.nextInt(cityNumbers));
+					newCityCharacter = getCityCharacter(rng.nextInt(numberOfCities));
 				}
 				route += newCityCharacter;
 			}
@@ -390,6 +381,18 @@ public class TravellingSalesman {
 		double totalDistance = Math.sqrt(Math.abs(xDistance - yDistance));
 
 		return totalDistance;
+	}
+	
+	public double randomSearch(int numberOfSearches, int numberOfCities){
+		double bestRoute = testRandomRoute(numberOfCities);
+		int searchesComplete;
+		for (searchesComplete = 1; searchesComplete < numberOfSearches; searchesComplete++) {
+			double randomRoute = testRandomRoute(numberOfCities);
+			if (randomRoute < bestRoute) {
+				bestRoute = randomRoute;
+			}
+		}
+		return bestRoute;
 	}
 
 }
