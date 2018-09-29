@@ -1,4 +1,4 @@
-package lab.pkg1;
+package lab.main;
 
 /**
  * 

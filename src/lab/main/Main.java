@@ -1,7 +1,7 @@
-package lab.pkg1;
+package lab.main;
 
-import lab.pkg1.TravellingSalesman;
-import lab.pkg1.RouteSet;
+import lab.main.TravellingSalesman;
+import lab.main.RouteSet;
 
 public class Main {
 	

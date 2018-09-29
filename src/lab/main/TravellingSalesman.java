@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lab.pkg1;
+package lab.main;
 
 import java.util.Random;
 import java.io.File;
