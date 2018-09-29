@@ -12,18 +12,28 @@ import java.util.Scanner;
 
 /**
  *
- * @author jamie
+ * @author JRIngram
  */
 public class TravellingSalesman {
-
+	
+	/**
+	 * An array representing the graph used in the Travelling Salesman Problem.
+	 */
 	private static double[][] graph;
+	
+	/**
+	 * A set containing the searched routes.
+	 * @see RouteSet
+	 */
 	private static RouteSet routes;
 
 	/**
-	 * 
+	 * Hardcoded representation of the travelling salesman problem.
+	 * Creates a 4 x 4 2D Array which contains the values of a route between two nodes.
+	 * 	e.g. graph[0][1] would contain the value needed to travel from node 0 to node 1.
+	 * Once the graph is loaded, the class tests 24 random routes randomly.
 	 */
 	public TravellingSalesman() {
-		// TODO Auto-generated method stub
 		graph = new double[4][4];
 
 		// a routes
@@ -52,16 +62,16 @@ public class TravellingSalesman {
 
 		routes = new RouteSet(4);
 		System.out.println("Completed");
-		getCostOfRoute("ABCD");
-		for (int i = 0; i < 23; i++) {
+		for (int i = 0; i < 24; i++) {
 			testRandomRoute(4);
 		}
 
 	}
 
 	/**
-	 * 
-	 * @param filePath
+	 * Loads in a CSV file containing x and y coordinates - each entry will be a "city" in the travelling salesman problem.
+	 * Once this has been completed, 5000 of the routes are tests, and a print statement shows the best route found.
+	 * @param filePath The file path for the csv file being loaded in.
 	 */
 	public TravellingSalesman(String filePath) {
 		File csv = new File(filePath);
@@ -72,18 +82,28 @@ public class TravellingSalesman {
 			while (validLineScan.hasNext()) {
 				String line = validLineScan.nextLine();
 				String[] splitLine = line.split(",");
-				// Detects if line starts with the city ID
+				
+				// Detects if line starts with the city ID - counter increases if it does.
 				if (splitLine[0].matches("[0-9]+")) {
 					validLineCounter++;
 				}
 			}
+			
 			System.out.println("Number of valid lines = " + validLineCounter);
+			
+			/*
+			 * Creates an n * n 2D array, where n is the number of valid lines.
+			 * This array represents the graph for the travelling salesman problem.
+			 */
 			graph = new double[validLineCounter][validLineCounter];
 			validLineScan.close();
 
+			
 			Scanner cityValuesScan = new Scanner(csv);
 			String[] cityValues = new String[validLineCounter];
 			int index = 0;
+			
+			//Scans the file, and where there is a valid line it stores the x and y coordinates of that line in cityValues.
 			while (cityValuesScan.hasNext()) {
 				String line = cityValuesScan.nextLine();
 				String[] splitLine = line.split(",");
@@ -94,14 +114,21 @@ public class TravellingSalesman {
 					index++;
 				}
 			}
-
+			cityValuesScan.close();
+			
+			/*	For each item in the cityValues array, the distance from the city to all other cities is calculated one by one.
+			 *	This is then stored in the graph, as graph[cityTravellingFrom][cityTravellingTo]
+			 *	e.g. graph[0][1] would store the distance from city 0 to city 1.  
+			 */
 			for (int fromIndex = 0; fromIndex < cityValues.length; fromIndex++) {
 				for (int toIndex = 0; toIndex < cityValues.length; toIndex++) {
 					graph[fromIndex][toIndex] = calculateDistance(cityValues[fromIndex], cityValues[toIndex]);
 				}
 			}
+			//Creates a RouteSet that can store 11! routes.
 			routes = new RouteSet(11); // 11 is the maximum amount before heapspace error
-			getCostOfRoute("ABCD");
+			
+			//Stores the bestRoute value, which is changed every time a better route is found.
 			double bestRoute = 0;
 			for (int i = 0; i < 5000; i++) {
 				double randomRoute = testRandomRoute(16);
@@ -118,15 +145,12 @@ public class TravellingSalesman {
 	}
 
 	/**
-	 * 
-	 * @param route
-	 * @return
+	 * Calculates the distance travelled in the route.
+	 * It enters the route into the route set so a route isn't checked twice.
+	 * @param route A string value, such as "ABCD", which calculates the total route travelled.
+	 * @return The distance travelled in the route.
 	 */
 	public static double getCostOfRoute(String route) {
-		// Search for routes or enter route into the route set.
-		// current city + next city location
-		// set current city to next city
-		// set route length
 
 		// If route not in set, enter the route.
 		if (routes.enterRoute(route) != true) {
@@ -137,7 +161,8 @@ public class TravellingSalesman {
 		int from = 0;
 		int to = 0;
 		double routeCost = 0;
-		// for each entry, check the distance between that and the next entry
+		
+		// For each journey between cities, check the distance between that and the next entry
 		for (int i = 0; i < splitRoute.length; i++) {
 			int nextCity = i + 1;
 			from = getCity(splitRoute[i]);
@@ -153,9 +178,10 @@ public class TravellingSalesman {
 	}
 
 	/**
-	 * 
-	 * @param city
-	 * @return
+	 * Turns a Alphabetical representation of a city into a numerical representation, e.g. A = B.
+	 * If an invalid String is entered, then the default case is 0.
+	 * @param city A single letter
+	 * @return The numerical representation of a city.
 	 */
 	private static int getCity(String city) {
 		int cityNumber = 0;
@@ -232,9 +258,9 @@ public class TravellingSalesman {
 	}
 
 	/**
-	 * 
-	 * @param cityNumber
-	 * @return
+	 * Converts a numerical representation into an alphabetical representation.
+	 * @param cityNumber The numerical representation of a city.
+	 * @return The alphabetical representation of a city.
 	 */
 	private static String getCityCharacter(int cityNumber) {
 		String cityCharacter;
@@ -313,9 +339,9 @@ public class TravellingSalesman {
 	}
 
 	/**
-	 * 
-	 * @param cityNumbers
-	 * @return
+	 * Creates a random route which includes all cities.
+	 * @param cityNumbers The number of cities in the graph.
+	 * @return The cost of the entire route.
 	 */
 	public double testRandomRoute(int cityNumbers) {
 		Random rng = new Random();
@@ -339,10 +365,11 @@ public class TravellingSalesman {
 	}
 
 	/**
-	 * 
-	 * @param a
-	 * @param b
-	 * @return
+	 * Calculates the distance using pythagoras' theorem:
+	 * sqrt((xb - xa)^2 - (yb - ya)^2)
+	 * @param a City the agent is travelling from.
+	 * @param b	City the agent is travelling to.
+	 * @return	
 	 */
 	public double calculateDistance(String a, String b) {
 		float xa = 0;
