@@ -9,7 +9,10 @@ public class Main {
 	private static RouteSet routes;
 
 	public static void main(String[] args) {
-		//TravellingSalesman ts = new TravellingSalesman();
-		TravellingSalesman tsf = new TravellingSalesman("src/lab/main/ulysses16.csv");
+		TravellingSalesman tsFixed = new TravellingSalesman();
+		System.out.println("Best route of Fixed: " + tsFixed.randomSearch(24));
+		TravellingSalesman tsUlysses = new TravellingSalesman("src/lab/main/ulysses16.csv");
+		System.out.println("Best route of Ulysses: " + tsUlysses.randomSearch(2500));
+		
 	}
 }

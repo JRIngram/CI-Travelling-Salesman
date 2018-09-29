@@ -26,12 +26,13 @@ public class TravellingSalesman {
 	 * @see RouteSet
 	 */
 	private static RouteSet routes;
+	
+	private int numberOfCities;
 
 	/**
 	 * Hardcoded representation of the travelling salesman problem.
 	 * Creates a 4 x 4 2D Array which contains the values of a route between two nodes.
 	 * 	e.g. graph[0][1] would contain the value needed to travel from node 0 to node 1.
-	 * Once the graph is loaded, the class tests 24 random routes randomly.
 	 */
 	public TravellingSalesman() {
 		graph = new double[4][4];
@@ -61,8 +62,7 @@ public class TravellingSalesman {
 		graph[3][3] = 0;
 
 		routes = new RouteSet(4);
-		double bestRoute = randomSearch(24, 4);
-		System.out.println("The best route found is: " + bestRoute);
+		numberOfCities = 4;
 
 	}
 
@@ -95,6 +95,7 @@ public class TravellingSalesman {
 			 */
 			graph = new double[validLineCounter][validLineCounter];
 			validLineScan.close();
+			numberOfCities = validLineCounter;
 
 			
 			Scanner cityValuesScan = new Scanner(csv);
@@ -113,7 +114,6 @@ public class TravellingSalesman {
 				}
 			}
 			cityValuesScan.close();
-			
 			/*	For each item in the cityValues array, the distance from the city to all other cities is calculated one by one.
 			 *	This is then stored in the graph, as graph[cityTravellingFrom][cityTravellingTo]
 			 *	e.g. graph[0][1] would store the distance from city 0 to city 1.  
@@ -126,9 +126,6 @@ public class TravellingSalesman {
 			//Creates a RouteSet that can store 11! routes.
 			routes = new RouteSet(11); // 11 is the maximum amount before heapspace error
 			
-			double bestRoute = randomSearch(5000, index);
-			System.out.println("Best route found is: " + bestRoute);
-
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
@@ -383,7 +380,7 @@ public class TravellingSalesman {
 		return totalDistance;
 	}
 	
-	public double randomSearch(int numberOfSearches, int numberOfCities){
+	public double randomSearch(int numberOfSearches){
 		double bestRoute = testRandomRoute(numberOfCities);
 		int searchesComplete;
 		for (searchesComplete = 1; searchesComplete < numberOfSearches; searchesComplete++) {
