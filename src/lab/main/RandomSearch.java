@@ -17,7 +17,7 @@ public class RandomSearch extends TravellingSalesman {
 		super(filePath);
 	}
 	
-	public Tuple<String, Double> randomSearch(int numberOfSearches){
+	protected Tuple<String, Double> randomSearch(int numberOfSearches){
 		Tuple<String, Double> bestRoute = testRandomRoute(numberOfCities);
 		int searchesComplete;
 		for (searchesComplete = 1; searchesComplete < numberOfSearches; searchesComplete++) {
@@ -34,7 +34,7 @@ public class RandomSearch extends TravellingSalesman {
 	 * @param numberOfCities The number of cities in the graph.
 	 * @return The cost of the entire route.
 	 */
-	public Tuple<String, Double> testRandomRoute(int numberOfCities) {
+	protected Tuple<String, Double> testRandomRoute(int numberOfCities) {
 		Random rng = new Random();
 		double routeCost = 0;
 		Tuple<String, Double> routeCostTuple = new Tuple<String, Double>("", 0.0);
