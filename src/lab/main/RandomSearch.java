@@ -37,6 +37,7 @@ public class RandomSearch extends TravellingSalesman {
 	protected Tuple<String, Double> testRandomRoute(int numberOfCities) {
 		Random rng = new Random();
 		double routeCost = 0;
+		
 		Tuple<String, Double> routeCostTuple = new Tuple<String, Double>("", 0.0);
 		while (routeCost == 0) {
 			String route = "";
@@ -55,6 +56,33 @@ public class RandomSearch extends TravellingSalesman {
 			}
 		}
 		return routeCostTuple;
+	}
+	
+	/**
+	 * Ensure that if this is being ran that a generic random search hasn't been ran using the same object prior to this search.
+	 * @param timeRestraint
+	 * @return
+	 */
+	protected Tuple<String,Double> timeLimitedRandomSearch(double timeRestraint){
+		//Sets timer.
+		long start = System.currentTimeMillis();
+		long now = System.currentTimeMillis();
+		long timeDifference = (now - start) / 1000;
+		
+		Tuple<String, Double> bestRoute = new Tuple("", 0.0);
+		while(timeDifference < timeRestraint ) {
+			Tuple<String, Double> randomRoute = testRandomRoute(numberOfCities);
+			now = System.currentTimeMillis();
+			timeDifference = (now - start) / 1000;
+			System.out.println(timeDifference);
+			if (((randomRoute.getItemTwo() < bestRoute.getItemTwo()) || bestRoute.getItemTwo() == 0.0) && (timeDifference < timeRestraint)) {
+				bestRoute = randomRoute;
+			}
+		}
+		System.out.println(bestRoute.getItemOne());
+		System.out.println("Took : " + timeDifference);
+		
+		return bestRoute;
 	}
 
 }
