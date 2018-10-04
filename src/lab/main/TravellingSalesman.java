@@ -9,7 +9,7 @@ import java.util.Random;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-
+import lab.main.Tuple;
 /**
  *
  * @author JRIngram
@@ -114,6 +114,7 @@ public class TravellingSalesman {
 				}
 			}
 			cityValuesScan.close();
+			
 			/*	For each item in the cityValues array, the distance from the city to all other cities is calculated one by one.
 			 *	This is then stored in the graph, as graph[cityTravellingFrom][cityTravellingTo]
 			 *	e.g. graph[0][1] would store the distance from city 0 to city 1.  
@@ -123,6 +124,7 @@ public class TravellingSalesman {
 					graph[fromIndex][toIndex] = calculateDistance(cityValues[fromIndex], cityValues[toIndex]);
 				}
 			}
+			
 			//Creates a RouteSet that can store 11! routes.
 			routes = new RouteSet(11); // 11 is the maximum amount before heapspace error
 			
@@ -331,9 +333,10 @@ public class TravellingSalesman {
 	 * @param numberOfCities The number of cities in the graph.
 	 * @return The cost of the entire route.
 	 */
-	public double testRandomRoute(int numberOfCities) {
+	public Tuple<String, Double> testRandomRoute(int numberOfCities) {
 		Random rng = new Random();
 		double routeCost = 0;
+		Tuple<String, Double> routeCostTuple = new Tuple<String, Double>("", 0.0);
 		while (routeCost == 0) {
 			String route = "";
 			for (int i = 0; i < numberOfCities; i++) {
@@ -343,13 +346,14 @@ public class TravellingSalesman {
 				}
 				route += newCityCharacter;
 			}
-			routeCost = getCostOfRoute(route);
-			if (routeCost > 0) {
-				System.out.println("Cost of route " + route + " is " + routeCost);
-				return routeCost;
+			routeCostTuple.setItemOne(route);
+			routeCostTuple.setItemTwo(getCostOfRoute(route));
+			if (routeCostTuple.getItemTwo() > 0) {
+				System.out.println("Cost of route " + routeCostTuple.getItemOne() + " is " + routeCostTuple.getItemTwo());
+				return routeCostTuple;
 			}
 		}
-		return routeCost;
+		return routeCostTuple;
 	}
 
 	/**
@@ -380,12 +384,12 @@ public class TravellingSalesman {
 		return totalDistance;
 	}
 	
-	public double randomSearch(int numberOfSearches){
-		double bestRoute = testRandomRoute(numberOfCities);
+	public Tuple<String, Double> randomSearch(int numberOfSearches){
+		Tuple<String, Double> bestRoute = testRandomRoute(numberOfCities);
 		int searchesComplete;
 		for (searchesComplete = 1; searchesComplete < numberOfSearches; searchesComplete++) {
-			double randomRoute = testRandomRoute(numberOfCities);
-			if (randomRoute < bestRoute) {
+			Tuple<String, Double> randomRoute = testRandomRoute(numberOfCities);
+			if (randomRoute.getItemTwo() < bestRoute.getItemTwo()) {
 				bestRoute = randomRoute;
 			}
 		}
