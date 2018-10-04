@@ -20,10 +20,12 @@ public class RandomSearch extends TravellingSalesman {
 	protected Tuple<String, Double> randomSearch(int numberOfSearches){
 		Tuple<String, Double> bestRoute = testRandomRoute(numberOfCities);
 		int searchesComplete;
+		System.out.println("New best route found: " + bestRoute.getItemOne() + " with a distance of " + bestRoute.getItemTwo());
 		for (searchesComplete = 1; searchesComplete < numberOfSearches; searchesComplete++) {
 			Tuple<String, Double> randomRoute = testRandomRoute(numberOfCities);
 			if (randomRoute.getItemTwo() < bestRoute.getItemTwo()) {
 				bestRoute = randomRoute;
+				System.out.println("New best route found: " + bestRoute.getItemOne() + " with a distance of " + bestRoute.getItemTwo());
 			}
 		}
 		return bestRoute;
@@ -51,7 +53,6 @@ public class RandomSearch extends TravellingSalesman {
 			routeCostTuple.setItemOne(route);
 			routeCostTuple.setItemTwo(getCostOfRoute(route));
 			if (routeCostTuple.getItemTwo() > 0) {
-				System.out.println("Cost of route " + routeCostTuple.getItemOne() + " is " + routeCostTuple.getItemTwo());
 				return routeCostTuple;
 			}
 		}
@@ -76,6 +77,7 @@ public class RandomSearch extends TravellingSalesman {
 			timeDifference = (now - start) / 1000;
 			if (((randomRoute.getItemTwo() < bestRoute.getItemTwo()) || bestRoute.getItemTwo() == 0.0) && (timeDifference < timeRestraint)) {
 				bestRoute = randomRoute;
+				System.out.println("[" + timeDifference + "] New best route found: " + bestRoute.getItemOne() + " with a distance of " + bestRoute.getItemTwo());
 			}
 		}
 		
