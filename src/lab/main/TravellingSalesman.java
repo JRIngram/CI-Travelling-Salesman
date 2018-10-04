@@ -11,7 +11,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import lab.main.Tuple;
 /**
- *
+ * Creates a representation of a travelling salesman problem using 2D Arrays.
+ * Can generate a hardcoded graph, or can generate a graph based off x and y coordinates in a CSV:
+ * 	Formatting for the CSV file must be: numericalCityId, X Coordinate, Y Coordinate
  * @author JRIngram
  */
 public class TravellingSalesman {
@@ -27,7 +29,7 @@ public class TravellingSalesman {
 	 */
 	private static RouteSet routes;
 	
-	private int numberOfCities;
+	protected int numberOfCities;
 
 	/**
 	 * Hardcoded representation of the travelling salesman problem.
@@ -140,7 +142,7 @@ public class TravellingSalesman {
 	 * @param route A string value, such as "ABCD", which calculates the total route travelled.
 	 * @return The distance travelled in the route.
 	 */
-	public static double getCostOfRoute(String route) {
+	protected static double getCostOfRoute(String route) {
 
 		// If route not in set, enter the route.
 		if (routes.enterRoute(route) != true) {
@@ -173,7 +175,7 @@ public class TravellingSalesman {
 	 * @param city A single letter
 	 * @return The numerical representation of a city.
 	 */
-	private static int getCity(String city) {
+	protected static int getCity(String city) {
 		int cityNumber = 0;
 		switch (city) {
 		case "A":
@@ -252,7 +254,7 @@ public class TravellingSalesman {
 	 * @param cityNumber The numerical representation of a city.
 	 * @return The alphabetical representation of a city.
 	 */
-	private static String getCityCharacter(int cityNumber) {
+	protected String getCityCharacter(int cityNumber) {
 		String cityCharacter;
 		// Switch statement to determine cityCharacter
 		switch (cityNumber) {
@@ -329,41 +331,13 @@ public class TravellingSalesman {
 	}
 
 	/**
-	 * Creates a random route which includes all cities.
-	 * @param numberOfCities The number of cities in the graph.
-	 * @return The cost of the entire route.
-	 */
-	public Tuple<String, Double> testRandomRoute(int numberOfCities) {
-		Random rng = new Random();
-		double routeCost = 0;
-		Tuple<String, Double> routeCostTuple = new Tuple<String, Double>("", 0.0);
-		while (routeCost == 0) {
-			String route = "";
-			for (int i = 0; i < numberOfCities; i++) {
-				String newCityCharacter = getCityCharacter(rng.nextInt(numberOfCities));
-				while (route.contains(newCityCharacter)) {
-					newCityCharacter = getCityCharacter(rng.nextInt(numberOfCities));
-				}
-				route += newCityCharacter;
-			}
-			routeCostTuple.setItemOne(route);
-			routeCostTuple.setItemTwo(getCostOfRoute(route));
-			if (routeCostTuple.getItemTwo() > 0) {
-				System.out.println("Cost of route " + routeCostTuple.getItemOne() + " is " + routeCostTuple.getItemTwo());
-				return routeCostTuple;
-			}
-		}
-		return routeCostTuple;
-	}
-
-	/**
 	 * Calculates the distance using pythagoras' theorem:
 	 * sqrt((xb - xa)^2 - (yb - ya)^2)
 	 * @param a City the agent is travelling from.
 	 * @param b	City the agent is travelling to.
 	 * @return	
 	 */
-	public double calculateDistance(String a, String b) {
+	protected double calculateDistance(String a, String b) {
 		float xa = 0;
 		float xb = 0;
 		float ya = 0;
@@ -382,18 +356,6 @@ public class TravellingSalesman {
 		double totalDistance = Math.sqrt(Math.abs(xDistance - yDistance));
 
 		return totalDistance;
-	}
-	
-	public Tuple<String, Double> randomSearch(int numberOfSearches){
-		Tuple<String, Double> bestRoute = testRandomRoute(numberOfCities);
-		int searchesComplete;
-		for (searchesComplete = 1; searchesComplete < numberOfSearches; searchesComplete++) {
-			Tuple<String, Double> randomRoute = testRandomRoute(numberOfCities);
-			if (randomRoute.getItemTwo() < bestRoute.getItemTwo()) {
-				bestRoute = randomRoute;
-			}
-		}
-		return bestRoute;
 	}
 
 }
