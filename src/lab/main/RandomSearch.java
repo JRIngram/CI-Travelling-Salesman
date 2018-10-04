@@ -74,13 +74,10 @@ public class RandomSearch extends TravellingSalesman {
 			Tuple<String, Double> randomRoute = testRandomRoute(numberOfCities);
 			now = System.currentTimeMillis();
 			timeDifference = (now - start) / 1000;
-			System.out.println(timeDifference);
 			if (((randomRoute.getItemTwo() < bestRoute.getItemTwo()) || bestRoute.getItemTwo() == 0.0) && (timeDifference < timeRestraint)) {
 				bestRoute = randomRoute;
 			}
 		}
-		System.out.println(bestRoute.getItemOne());
-		System.out.println("Took : " + timeDifference);
 		
 		return bestRoute;
 	}
