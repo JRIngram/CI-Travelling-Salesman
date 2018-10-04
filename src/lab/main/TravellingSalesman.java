@@ -157,12 +157,12 @@ public class TravellingSalesman {
 		// For each journey between cities, check the distance between that and the next entry
 		for (int i = 0; i < splitRoute.length; i++) {
 			int nextCity = i + 1;
-			from = getCity(splitRoute[i]);
+			from = getCityNumber(splitRoute[i]);
 			to = 0;
 			if (nextCity < splitRoute.length) {
-				to = getCity(splitRoute[nextCity]);
+				to = getCityNumber(splitRoute[nextCity]);
 			} else {
-				to = getCity(splitRoute[0]);
+				to = getCityNumber(splitRoute[0]);
 			}
 			routeCost += graph[from][to];
 		}
@@ -175,7 +175,7 @@ public class TravellingSalesman {
 	 * @param city A single letter
 	 * @return The numerical representation of a city.
 	 */
-	protected static int getCity(String city) {
+	protected static int getCityNumber(String city) {
 		int cityNumber = 0;
 		switch (city) {
 		case "A":
