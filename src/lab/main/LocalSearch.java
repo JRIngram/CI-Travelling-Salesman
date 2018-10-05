@@ -10,10 +10,9 @@ public class LocalSearch {
 		
 	}
 	
-	public Tuple<String, Double> twoOpt(Tuple<String, Double> routeTuple) {
-		String[] splitRoute = routeTuple.getItemOne().split("");
-		System.out.println("Route: " + routeTuple.getItemOne());
+	public ArrayList<String> createNeighbourhood(Tuple<String, Double> routeTuple){
 		ArrayList<String> routeList = new ArrayList<String>();
+		String[] splitRoute = routeTuple.getItemOne().split("");
 		for(int i = 0; i < splitRoute.length; i++) {
 			for(int j = i + 1; j < splitRoute.length; j++) {
 				String[] newRoute = splitRoute.clone();
@@ -27,8 +26,12 @@ public class LocalSearch {
 				routeList.add(newRouteString);
 			}
 		}
-		Tuple<String, Double> bestRoute = new Tuple<String, Double>(routeTuple.getItemOne(), routeTuple.getItemTwo());
-		for(int i = 0; i < routeList.size(); i++){
+		return routeList;
+	}
+	
+	public Tuple<String, Double> twoOpt(ArrayList<String> routeList) {
+		Tuple<String, Double> bestRoute = new Tuple<String, Double>(routeList.get(0), TravellingSalesman.getCostOfRoute(routeList.get(0)));
+		for(int i = 1; i < routeList.size(); i++){
 			double routeCost = TravellingSalesman.getCostOfRoute(routeList.get(i));
 			if(routeCost < bestRoute.getItemTwo()) {
 				bestRoute = new Tuple<String, Double>(routeList.get(i), routeCost);

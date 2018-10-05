@@ -17,6 +17,7 @@ public class Main {
 		System.out.println("Best route of Ulysses: " + randUlyResult.getItemOne()  + " with a distance of " + randUlyResult.getItemTwo());
 		System.out.println("**************");
 		LocalSearch ls = new LocalSearch();
-		ls.twoOpt(randUlyResult);
+		Tuple<String, Double> twoOpt = ls.twoOpt(ls.createNeighbourhood(randUlyResult));
+		System.out.println("Best route of 2Opt is: " + twoOpt.getItemOne() + " with a distance of " + twoOpt.getItemTwo());
 	}
 }
