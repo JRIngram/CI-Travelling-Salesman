@@ -17,6 +17,6 @@ public class Main {
 		System.out.println("Best route of Ulysses: " + randUlyResult.getItemOne()  + " with a distance of " + randUlyResult.getItemTwo());
 		System.out.println("**************");
 		LocalSearch ls = new LocalSearch();
-		ls.twoOpt(randUlyResult.getItemOne());
+		ls.twoOpt(randUlyResult);
 	}
 }

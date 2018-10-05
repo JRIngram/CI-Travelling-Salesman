@@ -1,6 +1,7 @@
 package lab.main;
 
 import java.util.ArrayList;
+import lab.main.Tuple;
 
 public class LocalSearch {
 	
@@ -9,11 +10,11 @@ public class LocalSearch {
 		
 	}
 	
-	public void twoOpt(String route) {
-		String[] splitRoute = route.split("");
-		System.out.println("Route: " + route);
+	public void twoOpt(Tuple<String, Double> routeTuple) {
+		String[] splitRoute = routeTuple.getItemOne().split("");
+		System.out.println("Route: " + routeTuple.getItemOne());
 		ArrayList<String> routeList = new ArrayList();
-		routeList.add(route);
+		routeList.add(routeTuple.getItemOne());
 		for(int i = 0; i < splitRoute.length; i++) {
 			for(int j = i + 1; j < splitRoute.length; j++) {
 				String[] newRoute = splitRoute.clone();
