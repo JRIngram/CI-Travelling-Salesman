@@ -13,10 +13,10 @@ public class Main {
 		System.out.println("Best route of Fixed: " + randFixed.randomSearch(24).getItemTwo());
 		RandomSearch randUlysses = new RandomSearch("src/lab/main/ulysses16.csv");
 		System.out.println("**************");
-		Tuple<String, Double> randUlyResult = randUlysses.timeLimitedRandomSearch(3);
+		Tuple<String, Double> randUlyResult = randUlysses.timeLimitedRandomSearch(5);
 		System.out.println("Best route of Ulysses: " + randUlyResult.getItemOne()  + " with a distance of " + randUlyResult.getItemTwo());
 		System.out.println("**************");
 		LocalSearch ls = new LocalSearch();
-		ls.twoOpt("ABCD");
+		ls.twoOpt(randUlyResult.getItemOne());
 	}
 }

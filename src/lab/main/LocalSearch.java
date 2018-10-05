@@ -1,5 +1,7 @@
 package lab.main;
 
+import java.util.ArrayList;
+
 public class LocalSearch {
 	
 	
@@ -10,8 +12,9 @@ public class LocalSearch {
 	public void twoOpt(String route) {
 		String[] splitRoute = route.split("");
 		System.out.println("Route: " + route);
+		ArrayList<String> routeList = new ArrayList();
+		routeList.add(route);
 		for(int i = 0; i < splitRoute.length; i++) {
-			System.out.println(i);
 			for(int j = i + 1; j < splitRoute.length; j++) {
 				String[] newRoute = splitRoute.clone();
 				String tempI = splitRoute[i];
@@ -22,6 +25,7 @@ public class LocalSearch {
 					newRouteString = newRouteString + newRoute[k];
 				}
 				System.out.println("New route:" + newRouteString);
+				routeList.add(newRouteString);
 			}
 		}
 	}
