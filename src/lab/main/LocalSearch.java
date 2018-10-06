@@ -40,4 +40,44 @@ public class LocalSearch {
 		}
 		return bestRoute;	
 	}
+	
+	public Tuple<String, Double> twoOptLocalSearch(String filePath, long timeRestraint){
+		RandomSearch rs;
+		//Sets timer.
+		long start = System.currentTimeMillis();
+		long now = System.currentTimeMillis();
+		long timeDifference = (now - start) / 1000;
+		
+		//Generates a random search
+		if(!filePath.equals("")) {
+			rs = new RandomSearch(filePath);
+		}
+		else {
+			rs = new RandomSearch();
+		}
+		
+		//Creates bestRoute tuple from the best result of the random search.
+		Tuple<String, Double> bestRoute = rs.timeLimitedRandomSearch(1);
+		
+		ArrayList<String> bestNeighbourhood = createNeighbourhood(bestRoute);
+		for(int i = 0; i < bestNeighbourhood.size(); i++) {
+			Tuple<String, Double> newRoute = new Tuple(bestNeighbourhood.get(i), 0);
+			newRoute.setItemTwo(TravellingSalesman.getCostOfRoute(bestNeighbourhood.get(i)));
+			
+			//Calculates time difference.
+			now = System.currentTimeMillis();
+			timeDifference = (now - start) / 1000;
+			if(timeDifference < timeRestraint) {
+				if(newRoute.getItemTwo() < bestRoute.getItemTwo()) {
+					bestRoute = newRoute;
+					System.out.println("[" + timeDifference + "] NEW BEST ROUTE: " + newRoute.getItemOne() + " : " + newRoute.getItemTwo());
+				}
+			}
+			else{
+				break;
+			}
+		}
+		System.out.println("Completed in " + timeDifference + " seconds!");
+		return bestRoute;
+	}
 }

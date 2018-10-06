@@ -64,6 +64,7 @@ public class RandomSearch extends TravellingSalesman {
 	 * @param timeRestraint
 	 * @return
 	 */
+	//TODO Need to create break out if algorithm gets stuck.
 	protected Tuple<String,Double> timeLimitedRandomSearch(double timeRestraint){
 		//Sets timer.
 		long start = System.currentTimeMillis();
