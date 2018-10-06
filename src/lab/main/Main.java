@@ -20,6 +20,6 @@ public class Main {
 		Tuple<String, Double> twoOpt = ls.twoOpt(ls.createNeighbourhood(randUlyResult));
 		System.out.println("Best route of 2Opt is: " + twoOpt.getItemOne() + " with a distance of " + twoOpt.getItemTwo());
 		System.out.println("**************");
-		System.out.println(ls.twoOptLocalSearch("src/lab/main/ulysses16.csv", 3).getItemTwo());
+		System.out.println(ls.twoOptLocalSearch("src/lab/main/ulysses16.csv", 30).getItemTwo());
 	}
 }
