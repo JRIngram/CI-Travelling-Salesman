@@ -146,6 +146,8 @@ public class TravellingSalesman {
 
 		// If route not in set, enter the route.
 		if (routes.enterRoute(route) != true) {
+			//TODO Requires more elegant solution - if this method is called directly it and the route has already been explored it suggests the route length is zero.
+			//Perhaps set route to max double value instead?
 			return 0;
 		}
 

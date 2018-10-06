@@ -59,20 +59,29 @@ public class LocalSearch {
 		
 		//Creates bestRoute tuple from the best result of the random search.
 		Tuple<String, Double> bestRoute = rs.timeLimitedRandomSearch(1);
+		bestRoute = findLocalOptima(start, now, timeRestraint, bestRoute);
+		now = System.currentTimeMillis();
+		timeDifference = (now - start) / 1000;
+		System.out.println("Completed in " + timeDifference + " seconds!");
+		return bestRoute;
+	}
+	
+	private Tuple<String, Double> findLocalOptima(long start, long now, long timeRestraint, Tuple<String, Double> route){
+		long timeDifference = (now - start) / 1000;
+		Tuple<String,Double> bestLocalRoute = route;
 		while(timeDifference < timeRestraint) {
-			ArrayList<String> bestNeighbourhood = createNeighbourhood(bestRoute);
+			ArrayList<String> bestNeighbourhood = createNeighbourhood(bestLocalRoute);
 			System.out.println("NEW NEIGHBOURHOOD!");
 			for(int i = 0; i < bestNeighbourhood.size(); i++) {
-				Tuple<String, Double> newRoute = new Tuple(bestNeighbourhood.get(i), 0);
+				Tuple<String, Double> newRoute = new Tuple<String, Double>(bestNeighbourhood.get(i), 0.0);
 				newRoute.setItemTwo(TravellingSalesman.getCostOfRoute(bestNeighbourhood.get(i)));
-				
 				//Calculates time difference.
 				now = System.currentTimeMillis();
 				timeDifference = (now - start) / 1000;
 				if(timeDifference < timeRestraint) {
-					if(newRoute.getItemTwo() < bestRoute.getItemTwo()) {
-						bestRoute = newRoute;
-						System.out.println("[" + timeDifference + "] NEW BEST ROUTE: " + newRoute.getItemOne() + " : " + newRoute.getItemTwo());
+					if(newRoute.getItemTwo() < bestLocalRoute.getItemTwo() && newRoute.getItemTwo() != 0) {
+						bestLocalRoute = newRoute;
+						System.out.println("[" + timeDifference + "] NEW BEST ROUTE LOCAL: " + bestLocalRoute.getItemOne() + " : " + bestLocalRoute.getItemTwo());
 					}
 				}
 				else{
@@ -80,7 +89,6 @@ public class LocalSearch {
 				}
 			}
 		}
-		System.out.println("Completed in " + timeDifference + " seconds!");
-		return bestRoute;
+		return bestLocalRoute;
 	}
 }
