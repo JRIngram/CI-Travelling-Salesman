@@ -340,22 +340,22 @@ public class TravellingSalesman {
 	 * @return	
 	 */
 	protected double calculateDistance(String a, String b) {
-		float xa = 0;
-		float xb = 0;
-		float ya = 0;
-		float yb = 0;
+		double xa = 0;
+		double xb = 0;
+		double ya = 0;
+		double yb = 0;
 
 		String[] splitA = a.split(",");
-		xa = Float.parseFloat(splitA[0]);
-		ya = Float.parseFloat(splitA[1]);
+		xa = Double.parseDouble(splitA[0]);
+		ya = Double.parseDouble(splitA[1]);
 
 		String[] splitB = b.split(",");
-		xb = Float.parseFloat(splitB[0]);
-		yb = Float.parseFloat(splitB[1]);
+		xb = Double.parseDouble(splitB[0]);
+		yb = Double.parseDouble(splitB[1]);
 
 		double xDistance = Math.pow((xb - xa), 2);
 		double yDistance = Math.pow((yb - ya), 2);
-		double totalDistance = Math.sqrt(Math.abs(xDistance - yDistance));
+		double totalDistance = Math.sqrt(Math.abs(xDistance + yDistance));
 
 		return totalDistance;
 	}
