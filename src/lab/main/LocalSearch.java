@@ -64,8 +64,10 @@ public class LocalSearch {
 		timeDifference = (now - start) / 1000;
 		while(timeDifference < timeRestraint){
 			Tuple<String, Double> randomLocalOptima = findLocalOptima(start, now, timeRestraint, rs.timeLimitedRandomSearch(1));
+			System.out.println("[" + timeDifference + "] Local optima: " + randomLocalOptima.getItemTwo() + " vs. " + bestRoute.getItemTwo());
 			if(randomLocalOptima.getItemTwo() < bestRoute.getItemTwo()) {
 				bestRoute = randomLocalOptima;
+				System.out.println("[" + timeDifference + "] New best route found from local optima: " + bestRoute.getItemTwo());
 			}
 			now = System.currentTimeMillis();
 			timeDifference = (now - start) / 1000;
@@ -93,8 +95,6 @@ public class LocalSearch {
 				if(timeDifference < timeRestraint) {
 					if(newRoute.getItemTwo() < bestLocalRoute.getItemTwo() && newRoute.getItemTwo() != 0) {
 						bestLocalRoute = newRoute;
-						System.out.println("[" + timeDifference + "] NEW BEST ROUTE LOCAL: " + bestLocalRoute.getItemOne() + " : " + bestLocalRoute.getItemTwo());
-						System.out.println(TravellingSalesman.getCostOfRoute(bestNeighbourhood.get(i)));
 					}
 					else {
 						unchangedBestRouteCounter++;
@@ -104,6 +104,7 @@ public class LocalSearch {
 					break;
 				}
 			}
+			System.out.println("Running for " + timeDifference + " seconds.");
 		}
 		return bestLocalRoute;
 	}

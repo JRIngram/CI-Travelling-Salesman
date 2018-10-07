@@ -78,7 +78,7 @@ public class RandomSearch extends TravellingSalesman {
 			timeDifference = (now - start) / 1000;
 			if (((randomRoute.getItemTwo() < bestRoute.getItemTwo()) || bestRoute.getItemTwo() == 0.0) && (timeDifference < timeRestraint)) {
 				bestRoute = randomRoute;
-				System.out.println("[" + timeDifference + "] New best route found: " + bestRoute.getItemOne() + " with a distance of " + bestRoute.getItemTwo());
+				System.out.println("[" + timeDifference + "] New best route found in RANDOM SEARCH: " + bestRoute.getItemOne() + " with a distance of " + bestRoute.getItemTwo());
 			}
 		}
 		
