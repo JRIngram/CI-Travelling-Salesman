@@ -60,10 +60,13 @@ public class LocalSearch {
 		//Creates bestRoute tuple from the best result of the random search.
 		Tuple<String, Double> bestRoute = rs.timeLimitedRandomSearch(1);
 		bestRoute = findLocalOptima(start, now, timeRestraint, bestRoute);
+		timeDifference = (now - start) / 1000;
+		System.out.println("[" + timeDifference + "] New best route found from local optima: " + bestRoute.getItemTwo());
 		now = System.currentTimeMillis();
 		timeDifference = (now - start) / 1000;
 		while(timeDifference < timeRestraint){
 			Tuple<String, Double> randomLocalOptima = findLocalOptima(start, now, timeRestraint, rs.timeLimitedRandomSearch(1));
+			timeDifference = (now - start) / 1000;
 			System.out.println("[" + timeDifference + "] Local optima: " + randomLocalOptima.getItemTwo() + " vs. " + bestRoute.getItemTwo());
 			if(randomLocalOptima.getItemTwo() < bestRoute.getItemTwo()) {
 				bestRoute = randomLocalOptima;
@@ -73,6 +76,7 @@ public class LocalSearch {
 			timeDifference = (now - start) / 1000;
 			System.out.println(timeDifference);
 		}
+		timeDifference = (now - start) / 1000;
 		System.out.println("Completed in " + timeDifference + " seconds!");
 		return bestRoute;
 	}
@@ -85,7 +89,7 @@ public class LocalSearch {
 		while(unchangedBestRouteCounter < bestNeighbourhood.size() && timeDifference < timeRestraint) {
 			unchangedBestRouteCounter = 0;
 			bestNeighbourhood = createNeighbourhood(bestLocalRoute);
-			System.out.println("NEW NEIGHBOURHOOD!");
+			System.out.println("[" + timeDifference + "] NEW NEIGHBOURHOOD!");
 			for(int i = 0; i < bestNeighbourhood.size(); i++) {
 				Tuple<String, Double> newRoute = new Tuple<String, Double>(bestNeighbourhood.get(i), 0.0);
 				newRoute.setItemTwo(TravellingSalesman.getCostOfRoute(bestNeighbourhood.get(i)));
@@ -104,7 +108,7 @@ public class LocalSearch {
 					break;
 				}
 			}
-			System.out.println("Running for " + timeDifference + " seconds.");
+			System.out.println("[" + timeDifference + "] Current best route in local optima: " + bestLocalRoute.getItemTwo());
 		}
 		return bestLocalRoute;
 	}
