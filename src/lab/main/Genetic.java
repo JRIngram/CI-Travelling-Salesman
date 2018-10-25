@@ -11,26 +11,25 @@ public class Genetic extends TravellingSalesman {
 
 	public Genetic(int populationSize, int generationLimit) {
 		super();
-		population = createPopulation("", 10, numberOfCities);
+		population = createPopulation("", populationSize, numberOfCities);
 		this.generationLimit = generationLimit;
 	}
 
 	public Genetic(String filePath, int populationSize, int generationLimit) {
 		super(filePath);
-		population = createPopulation(filePath, 10, numberOfCities);
+		population = createPopulation(filePath, populationSize, numberOfCities);
 		this.generationLimit = generationLimit;
 	}
 
 	public void GeneticSearch(){
 		for(int i = 0; i < generationLimit; i++) {
-			System.out.println("Generation: " + (i+1));
 			Tuple<String, Double>[] parents = parentSelection(population);
-			population = createNextGeneration(parents);
+			Tuple[] nextGeneration = createNextGeneration(parents);
+			//Replaces the worst chromosome from the new generation with the best from the previous. 
+			nextGeneration[nextGeneration.length - 1] = population[0];	
+			population = nextGeneration;
 			sortPopulation(population);
 			System.out.println("[Gen: " + i + "] Current best route: " + population[0].getItemOne() + " with a cost of " + population[0].getItemTwo());
-		}
-		for(int i = 0; i < population.length; i++){
-			System.out.println(population[i].getItemOne() + " : " + population[i].getItemTwo());
 		}
 	}
 
@@ -51,7 +50,6 @@ public class Genetic extends TravellingSalesman {
 		}
 		for(int i = 0; i < populationSize; i++){
 			newPopulation[i] = rand.testRandomRoute(numberOfCities);
-			System.out.println(newPopulation[i].getItemOne() + "," + newPopulation[i].getItemTwo());
 		}
 		sortPopulation(newPopulation);
 		return newPopulation;
@@ -61,7 +59,7 @@ public class Genetic extends TravellingSalesman {
 	 * Sorts the current population
 	 * @param population currentPopulation of the GA.
 	 */
-	private void sortPopulation(Tuple<String, Double>[] population){
+	private Tuple[] sortPopulation(Tuple<String, Double>[] population){
 		boolean changeOccurred = true;
 		while(changeOccurred){
 			changeOccurred = false;
@@ -74,6 +72,7 @@ public class Genetic extends TravellingSalesman {
 				}
 			}
 		}
+		return population;
 	}
 
 	/**
@@ -119,7 +118,7 @@ public class Genetic extends TravellingSalesman {
 		for(int i = 0; i < newGeneration.size(); i++) {
 			nextGeneration[i] = newGeneration.get(i);
 		}
-
+		nextGeneration = sortPopulation(nextGeneration);
 		return nextGeneration;
 	}
 
