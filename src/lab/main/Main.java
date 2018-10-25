@@ -26,5 +26,6 @@ public class Main {
 		System.out.println("**************");
 		*/
 		Genetic gen = new Genetic("src/lab/main/ulysses16.csv", 10);
+		gen.GeneticSearch();
 	}
 }
