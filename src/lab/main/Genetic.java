@@ -7,23 +7,27 @@ import java.util.ArrayList;
 public class Genetic extends TravellingSalesman {
 
 	private Tuple<String, Double>[] population;
+	private int generationLimit = 0;
 
-	public Genetic(int populationSize) {
+	public Genetic(int populationSize, int generationLimit) {
 		super();
 		population = createPopulation("", 10, numberOfCities);
+		this.generationLimit = generationLimit;
 	}
 
-	public Genetic(String filePath, int populationSize) {
+	public Genetic(String filePath, int populationSize, int generationLimit) {
 		super(filePath);
 		population = createPopulation(filePath, 10, numberOfCities);
+		this.generationLimit = generationLimit;
 	}
 
 	public void GeneticSearch(){
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < generationLimit; i++) {
 			System.out.println("Generation: " + (i+1));
 			Tuple<String, Double>[] parents = parentSelection(population);
 			population = createNextGeneration(parents);
 			sortPopulation(population);
+			System.out.println("[Gen: " + i + "] Current best route: " + population[0].getItemOne() + " with a cost of " + population[0].getItemTwo());
 		}
 		for(int i = 0; i < population.length; i++){
 			System.out.println(population[i].getItemOne() + " : " + population[i].getItemTwo());
@@ -178,10 +182,15 @@ public class Genetic extends TravellingSalesman {
 				}
 			}
 			if(alreadyContained == false) {
-				//TODO NEED TO ADD IT IN THE NEXT EMPTY CELL NOT 'I'
 				childTwoRouteArray[nextEmptyCell] = parentOneRouteArray[i];
 			}
 		}
+		
+		//Mutate the children
+		childOneRouteArray = mutate(childOneRouteArray, 0.7);
+		childTwoRouteArray = mutate(childTwoRouteArray, 0.7);
+		
+		
 		for(int i = 0; i < childOneRouteArray.length; i++) {
 			childOne.setItemOne(childOne.getItemOne() + childOneRouteArray[i]);
 			childOne.setItemTwo(getCostOfRoute(childOne.getItemOne()));
@@ -190,5 +199,22 @@ public class Genetic extends TravellingSalesman {
 		}
 		Tuple[] children = {childOne,childTwo};
 		return children;
+	}
+	
+	private String[] mutate(String[] childRouteArray, double mutationProbability){
+		Random rng = new Random();
+		String[] mutatedChild = childRouteArray;
+		if(rng.nextDouble() > mutationProbability) {
+			int firstChangeIndex = rng.nextInt(childRouteArray.length);
+			int secondChangeIndex = rng.nextInt(childRouteArray.length);
+			while(secondChangeIndex == firstChangeIndex) {
+				secondChangeIndex = rng.nextInt(childRouteArray.length);
+			}
+			String firstChangeLetter = mutatedChild[firstChangeIndex];
+			String secondChangeLetter = mutatedChild[secondChangeIndex];
+			mutatedChild[secondChangeIndex] = firstChangeLetter;
+			mutatedChild[firstChangeIndex] = secondChangeLetter;
+		}
+		return mutatedChild;
 	}
 }

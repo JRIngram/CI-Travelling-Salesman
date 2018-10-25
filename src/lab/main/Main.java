@@ -25,8 +25,7 @@ public class Main {
 		System.out.println(ls.twoOptLocalSearch("src/lab/main/ulysses16.csv", 60).getItemTwo());
 		System.out.println("**************");
 		*/
-		Genetic gen = new Genetic("src/lab/main/ulysses16.csv", 10);
+		Genetic gen = new Genetic("src/lab/main/ulysses16.csv", 10, 1000);
 		gen.GeneticSearch();
-		System.out.println("TEST:" + gen.getCostOfRoute("AMNIKEGODJFCBHPL"));
 	}
 }
