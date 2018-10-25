@@ -1,0 +1,15 @@
+Representation: 
+	String of characters representing each city.
+Fitness Evaluation: 
+	Size of Route.
+Recombination: 
+	Copy a random selection from one parent. Mask those cities in the other parent.
+	Place the selection in a set part of the child. 
+	Add the non-masked children from parent two in the order they are found.
+Recombination Probability: 100%?
+Mutation: Swap the placement of two cities in a route.
+Mutation Rate: 0.05%
+Parent Selection: Selection by Tournament of Size 2.
+Survivor Selection: Best 50% of both parents and children.
+Population: 100 routes.
+Termination: 500 Generations.
