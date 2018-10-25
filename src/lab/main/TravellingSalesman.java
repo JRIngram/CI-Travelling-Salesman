@@ -143,13 +143,12 @@ public class TravellingSalesman {
 	 * @return The distance travelled in the route.
 	 */
 	protected static double getCostOfRoute(String route) {
-
+		
+		/*COMMENTED OUT DUE NOT CURRENTLY NOT BELIEVED TO BE NEEDED
 		// If route not in set, enter the route.
 		if (routes.enterRoute(route) != true) {
-			//TODO Requires more elegant solution - if this method is called directly it and the route has already been explored it suggests the route length is zero.
-			//Perhaps set route to max double value instead?
 			return 0;
-		}
+		}*/
 
 		String[] splitRoute = route.split("");
 		int from = 0;

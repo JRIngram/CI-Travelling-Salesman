@@ -27,5 +27,6 @@ public class Main {
 		*/
 		Genetic gen = new Genetic("src/lab/main/ulysses16.csv", 10);
 		gen.GeneticSearch();
+		System.out.println("TEST:" + gen.getCostOfRoute("AMNIKEGODJFCBHPL"));
 	}
 }
