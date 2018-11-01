@@ -8,7 +8,7 @@ public class Main {
 	private static int[][] graph;
 	private static RouteSet routes;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws CloneNotSupportedException {
 		/*RandomSearch randFixed = new RandomSearch();
 		System.out.println("Best route of Fixed: " + randFixed.randomSearch(24).getItemTwo());
 		System.out.println("**************");
@@ -26,7 +26,7 @@ public class Main {
 		Genetic gen = new Genetic("src/lab/main/ulysses16.csv", 100, 1000);
 		gen.GeneticSearch();*/
 		System.out.println("***************");
-		Immune im = new Immune("src/lab/main/ulysses16.csv", 10);
-		im.search(3, 1);
+		Immune im = new Immune("src/lab/main/ulysses16.csv", 5);
+		im.search(3, 1,2);
 	}
 }

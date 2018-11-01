@@ -10,54 +10,64 @@ public class Immune extends TravellingSalesman{
 	private ArrayList<Tuple<String, Double>> pool;
 	private int poolSize;
 	private double bestFitness;
+	private RandomSearch rs;
 
-	public Immune(int poolSize, int initialPoolSize) {
+	public Immune(int poolSize, int initialPoolSize) throws CloneNotSupportedException {
 		super();
 		pool = new ArrayList<Tuple<String,Double>>();
+		rs = new RandomSearch();
 		this.poolSize = poolSize;
 		cloneParents(pool, 3);
 		this.bestFitness = getBestFitness();
+
 	}
 
 	public Immune(String filePath, int poolSize) {
 		super(filePath);
+		rs = new RandomSearch(filePath);
 		pool = new ArrayList<Tuple<String,Double>>();
 		pool = createInitialPool(poolSize, filePath, numberOfCities);
 		this.poolSize = poolSize;
 	}
 	
-	public ArrayList<Tuple<String, Double>> search(int cloneNumber, double p){
+	public ArrayList<Tuple<String, Double>> search(int cloneNumber, double p, int numberToReplace) throws CloneNotSupportedException{
 		cloneParents(pool, cloneNumber);
 		this.bestFitness = getBestFitness();
-		for(int i = 0; i < pool.size(); i++) {
+		for(int i = poolSize; i < pool.size(); i++) {
 			double inverseFitness = 1 - normalizeFitness(i);
-			System.out.println("EXP: " + (p * inverseFitness));
 			double mutationProbability = Math.exp(-p * inverseFitness);
-			mutate(pool.get(i));
+			Random rng = new Random();
+			if(rng.nextDouble() < mutationProbability) {
+				pool.add(mutate(pool.get(i)));
+				Collections.swap(pool, i, pool.size() - 1);
+				pool.remove(pool.size() - 1);
+			}
+		}
+		pool = sortPool(pool);
+		for(int i = 0; i < pool.size(); i++){
+			System.out.println(pool.get(i).getItemOne() + " : " + pool.get(i).getItemTwo());
+		}
+		trimPoolToOriginalSize();
+		for(int i = poolSize - 1; i >= (poolSize - (numberToReplace)); i--){
+			pool.remove(i);
+			pool.add(rs.testRandomRoute(numberOfCities));
 		}
 		return null;
 	}
 	
 	public ArrayList<Tuple<String, Double>> createInitialPool(int initialPoolSize, String filePath, int numberOfCities) {
 		ArrayList<Tuple<String, Double>> initialPool = new ArrayList<Tuple<String, Double>>(); 
-		RandomSearch rs;
-		if(!filePath.equals("")) {
-			rs = new RandomSearch(filePath);
-		}
-		else{
-			rs = new RandomSearch();
-		}
 		for(int i = 0; i < initialPoolSize; i++){
 			initialPool.add(rs.testRandomRoute(numberOfCities)); 
 		}
 		return initialPool;
 	}
 	
-	public ArrayList<Tuple<String, Double>> cloneParents(ArrayList<Tuple<String, Double>> parentsPool, int numberOfClones) {
+	public ArrayList<Tuple<String, Double>> cloneParents(ArrayList<Tuple<String, Double>> parentsPool, int numberOfClones) throws CloneNotSupportedException {
 		int originalPoolSize = parentsPool.size();
 		for(int i = 0; i < originalPoolSize; i++){
 			for(int j = 0; j < numberOfClones; j++){
-				parentsPool.add(parentsPool.get(i));
+				parentsPool.add((Tuple<String, Double>) parentsPool.get(i).clone());
 			}
 		}
 		return parentsPool;
@@ -108,9 +118,33 @@ public class Immune extends TravellingSalesman{
 		return mutatedRoute;
 	}
 	
-	private ArrayList<Tuple<String, Double>> createNewPool(ArrayList<Tuple<String, Double>> pool){
+	private ArrayList<Tuple<String, Double>> createNewPool(ArrayList<Tuple<String, Double>> pool) throws CloneNotSupportedException{
 		ArrayList<Tuple<String, Double>> newPool = cloneParents(pool,3);
 		return null;
 	}
 	
+	/**
+	 * Sorts the current pool
+	 * @param population currentPopulation of the AIS.
+	 */
+	private ArrayList<Tuple<String, Double>> sortPool(ArrayList<Tuple<String, Double>> pool){
+		ArrayList<Tuple<String,Double>> sortedPool = (ArrayList<Tuple<String, Double>>) pool.clone();
+		boolean changeOccurred = true;
+		while(changeOccurred){
+			changeOccurred = false;
+			for(int i = 0; i < sortedPool.size() - 1; i++){
+				if(sortedPool.get(i).getItemTwo() > sortedPool.get(i+1).getItemTwo()){
+					Collections.swap(sortedPool, i, i + 1);
+					changeOccurred = true;
+				}
+			}
+		}
+		return sortedPool;
+	}
+	
+	private void trimPoolToOriginalSize(){
+		while(poolSize < pool.size()) {
+			pool.remove(pool.size() - 1);
+		}
+	}
 }
