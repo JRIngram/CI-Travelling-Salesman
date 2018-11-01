@@ -1,6 +1,6 @@
 package lab.main;
 
-public class Tuple<T,E> {
+public class Tuple<T,E> implements Cloneable {
 
 	private T itemOne;
 	private E itemTwo;
@@ -42,6 +42,10 @@ public class Tuple<T,E> {
 	
 	public E getItemTwo() {
 		return itemTwo;
+	}
+	
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 }
