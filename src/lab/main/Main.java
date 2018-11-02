@@ -9,7 +9,7 @@ public class Main {
 	private static RouteSet routes;
 
 	public static void main(String[] args) throws CloneNotSupportedException {
-		/*RandomSearch randFixed = new RandomSearch();
+		RandomSearch randFixed = new RandomSearch();
 		System.out.println("Best route of Fixed: " + randFixed.randomSearch(24).getItemTwo());
 		System.out.println("**************");
 		RandomSearch randUlysses = new RandomSearch("src/lab/main/ulysses16.csv");
@@ -24,9 +24,9 @@ public class Main {
 		System.out.println(ls.twoOptLocalSearch("src/lab/main/ulysses16.csv", 60).getItemTwo());
 		System.out.println("**************");
 		Genetic gen = new Genetic("src/lab/main/ulysses16.csv", 100, 1000);
-		gen.GeneticSearch();*/
+		gen.GeneticSearch();
 		System.out.println("***************");
-		Immune im = new Immune("src/lab/main/ulysses16.csv", 5);
-		im.search(3, 1,2);
+		Immune im = new Immune("src/lab/main/ulysses16.csv", 10);
+		im.search(50, 5, 1, 5);
 	}
 }

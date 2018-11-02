@@ -30,28 +30,30 @@ public class Immune extends TravellingSalesman{
 		this.poolSize = poolSize;
 	}
 	
-	public ArrayList<Tuple<String, Double>> search(int cloneNumber, double p, int numberToReplace) throws CloneNotSupportedException{
-		cloneParents(pool, cloneNumber);
-		this.bestFitness = getBestFitness();
-		for(int i = poolSize; i < pool.size(); i++) {
-			double inverseFitness = 1 - normalizeFitness(i);
-			double mutationProbability = Math.exp(-p * inverseFitness);
-			Random rng = new Random();
-			if(rng.nextDouble() < mutationProbability) {
-				pool.add(mutate(pool.get(i)));
-				Collections.swap(pool, i, pool.size() - 1);
-				pool.remove(pool.size() - 1);
+	public Tuple<String,Double> search(int numberOfSearches, int cloneNumber, double p, int numberToReplace) throws CloneNotSupportedException{
+		System.out.println("[" + 0 + "] Best Current Route: " + getFittestRoute().getItemOne() + " with a distancce of " + getFittestRoute().getItemTwo());
+		for(int i = 0; i < numberOfSearches; i++) {
+			cloneParents(pool, cloneNumber);
+			this.bestFitness = getBestFitness();
+			for(int j = poolSize; j < pool.size(); j++) {
+				double inverseFitness = 1 - normalizeFitness(j);
+				double mutationProbability = Math.exp(-p * inverseFitness);
+				Random rng = new Random();
+				if(rng.nextDouble() < mutationProbability) {
+					pool.add(mutate(pool.get(j)));
+					Collections.swap(pool, j, pool.size() - 1);
+					pool.remove(pool.size() - 1);
+				}
 			}
+			pool = sortPool(pool);
+			trimPoolToOriginalSize();
+			for(int j = poolSize - 1; j >= (poolSize - (numberToReplace)); j--){
+				pool.remove(j);
+				pool.add(rs.testRandomRoute(numberOfCities));
+			}
+			System.out.println("[" + (i+1) + "] Best Current Route: " + getFittestRoute().getItemOne() + " with a distancce of " + getFittestRoute().getItemTwo());
 		}
-		pool = sortPool(pool);
-		for(int i = 0; i < pool.size(); i++){
-			System.out.println(pool.get(i).getItemOne() + " : " + pool.get(i).getItemTwo());
-		}
-		trimPoolToOriginalSize();
-		for(int i = poolSize - 1; i >= (poolSize - (numberToReplace)); i--){
-			pool.remove(i);
-			pool.add(rs.testRandomRoute(numberOfCities));
-		}
+		
 		return null;
 	}
 	
@@ -146,5 +148,9 @@ public class Immune extends TravellingSalesman{
 		while(poolSize < pool.size()) {
 			pool.remove(pool.size() - 1);
 		}
+	}
+	
+	public Tuple<String, Double> getFittestRoute(){
+		return pool.get(0);
 	}
 }
