@@ -126,8 +126,8 @@ public class Genetic extends TravellingSalesman {
 		Tuple<String, Double> childOne = new Tuple<String, Double>("", 0.0);
 		Tuple<String, Double> childTwo = new Tuple<String, Double>("", 0.0);
 		Random rng = new Random();
-		String[] parentOneRouteArray = parentOne.getItemOne().split("");
-		String[] parentTwoRouteArray = parentTwo.getItemOne().split("");
+		String[] parentOneRouteArray = parentOne.getItemOne().split("->");
+		String[] parentTwoRouteArray = parentTwo.getItemOne().split("->");
 		String[] childOneRouteArray = new String[parentOneRouteArray.length];
 		String[] childTwoRouteArray = new String[parentTwoRouteArray.length];
 		
@@ -189,11 +189,25 @@ public class Genetic extends TravellingSalesman {
 		childOneRouteArray = mutate(childOneRouteArray, 0.7);
 		childTwoRouteArray = mutate(childTwoRouteArray, 0.7);
 		
+		//Add arrows back into route array
+		String childOneRoute = "";
+		String childTwoRoute = "";
+		for(int i = 0; i < childOneRouteArray.length; i++) {
+			if(i+1 != childOneRouteArray.length){
+				childOneRoute += childOneRouteArray[i] + "->";
+				childTwoRoute += childTwoRouteArray[i] + "->";
+			}
+			else {
+				childOneRoute += childOneRouteArray[i];
+				childTwoRoute += childTwoRouteArray[i];
+			}
+		}
 		
 		for(int i = 0; i < childOneRouteArray.length; i++) {
-			childOne.setItemOne(childOne.getItemOne() + childOneRouteArray[i]);
+			String test = childOne.getItemOne() + childOneRouteArray[i];
+			childOne.setItemOne(childOneRoute);
 			childOne.setItemTwo(getCostOfRoute(childOne.getItemOne()));
-			childTwo.setItemOne(childTwo.getItemOne() + childTwoRouteArray[i]);
+			childTwo.setItemOne(childTwoRoute);
 			childTwo.setItemTwo(getCostOfRoute(childTwo.getItemOne()));
 		}
 		Tuple[] children = {childOne,childTwo};
