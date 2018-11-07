@@ -146,7 +146,7 @@ public class Immune extends TravellingSalesman{
 	 */
 	private Tuple<String, Double> mutate(Tuple<String, Double> route){
 		Random rng = new Random();
-		String[] splitRoute = route.getItemOne().split("");
+		String[] splitRoute = route.getItemOne().split("->");
 		int firstSwapIndex = rng.nextInt(splitRoute.length);
 		int finalSwapIndex = rng.nextInt(splitRoute.length);
 		while(finalSwapIndex == firstSwapIndex) {
@@ -158,17 +158,26 @@ public class Immune extends TravellingSalesman{
 			firstSwapIndex = temp;
 		}
 		String routeSubstring = route.getItemOne().substring(firstSwapIndex,(finalSwapIndex+1));
-		String[] splitSubstring = routeSubstring.split("");
+		int swapIndexDifference = finalSwapIndex - firstSwapIndex;
+		String[] splitSubstring = new String[finalSwapIndex - firstSwapIndex];
+		for(int i = 0; i < swapIndexDifference; i++) {
+			splitSubstring[i] = splitRoute[firstSwapIndex + i];
+		}
 		List<String> reversedList = Arrays.asList(splitSubstring);
 		Collections.reverse(reversedList);
 		int indexCounter = 0;
-		for(int i = firstSwapIndex; i <= finalSwapIndex; i++){
+		for(int i = firstSwapIndex; i < finalSwapIndex; i++){
 			splitRoute[i] = reversedList.get(indexCounter);
 			indexCounter++;
 		}
 		String newRoute = "";
 		for(int i = 0; i < splitRoute.length; i++){
-			newRoute += splitRoute[i];
+			if(i+1 != splitRoute.length) {
+				newRoute += splitRoute[i] + "->";
+			}
+			else{
+				newRoute += splitRoute[i];	
+			}
 		}
 		Tuple<String, Double> mutatedRoute = new Tuple(newRoute, getCostOfRoute(newRoute));
 		return mutatedRoute;

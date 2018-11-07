@@ -25,8 +25,8 @@ public class Main {
 		System.out.println("**************");
 		Genetic gen = new Genetic("src/lab/main/ulysses16.csv", 10, 100);
 		gen.GeneticSearch();
-		System.out.println("***************");/*
+		System.out.println("***************");
 		Immune im = new Immune("src/lab/main/ulysses16.csv", 10);
-		im.search(30, 5, 1, 5);*/
+		im.search(100, 3, 1, 5);
 	}
 }
