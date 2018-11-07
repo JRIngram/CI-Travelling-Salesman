@@ -12,7 +12,7 @@ public class LocalSearch {
 
 	public ArrayList<String> createNeighbourhood(Tuple<String, Double> routeTuple){
 		ArrayList<String> routeList = new ArrayList<String>();
-		String[] splitRoute = routeTuple.getItemOne().split("");
+		String[] splitRoute = routeTuple.getItemOne().split("->");
 		for(int i = 0; i < splitRoute.length; i++) {
 			for(int j = i + 1; j < splitRoute.length; j++) {
 				String[] newRoute = splitRoute.clone();
@@ -21,7 +21,13 @@ public class LocalSearch {
 				newRoute[j] = tempI;
 				String newRouteString = "";
 				for(int k = 0; k < splitRoute.length; k++) {
-					newRouteString = newRouteString + newRoute[k];
+					if(k == 0) {
+						newRouteString = newRouteString + newRoute[k];
+					}
+					else {
+						newRouteString = newRouteString + "->" + newRoute[k];	
+					}
+
 				}
 				routeList.add(newRouteString);
 			}
