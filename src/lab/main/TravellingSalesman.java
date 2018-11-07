@@ -150,7 +150,7 @@ public class TravellingSalesman {
 			return 0;
 		}*/
 
-		String[] splitRoute = route.split("");
+		String[] splitRoute = route.split("->");
 		int from = 0;
 		int to = 0;
 		double routeCost = 0;
@@ -158,17 +158,18 @@ public class TravellingSalesman {
 		// For each journey between cities, check the distance between that and the next entry
 		for (int i = 0; i < splitRoute.length; i++) {
 			int nextCity = i + 1;
-			from = getCityNumber(splitRoute[i]);
+			from = Integer.parseInt(splitRoute[i]);
 			to = 0;
 			if (nextCity < splitRoute.length) {
-				to = getCityNumber(splitRoute[nextCity]);
+				to = Integer.parseInt(splitRoute[nextCity]);
 			} else {
-				to = getCityNumber(splitRoute[0]);
+				to = Integer.parseInt(splitRoute[0]);
 			}
 			routeCost += graph[from][to];
 		}
 		return routeCost;
 	}
+	
 
 	/**
 	 * Turns a Alphabetical representation of a city into a numerical representation, e.g. A = B.
@@ -176,6 +177,7 @@ public class TravellingSalesman {
 	 * @param city A single letter
 	 * @return The numerical representation of a city.
 	 */
+	/*
 	protected static int getCityNumber(String city) {
 		int cityNumber = 0;
 		switch (city) {
@@ -248,7 +250,7 @@ public class TravellingSalesman {
 			break;
 		}
 		return cityNumber;
-	}
+	}*/
 
 	/**
 	 * Converts a numerical representation into an alphabetical representation.

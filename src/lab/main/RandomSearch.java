@@ -44,11 +44,25 @@ public class RandomSearch extends TravellingSalesman {
 		while (routeCost == 0) {
 			String route = "";
 			for (int i = 0; i < numberOfCities; i++) {
-				String newCityCharacter = getCityCharacter(rng.nextInt(numberOfCities));
-				while (route.contains(newCityCharacter)) {
-					newCityCharacter = getCityCharacter(rng.nextInt(numberOfCities));
+				Integer newCity = rng.nextInt(numberOfCities);
+				String[] splitRoute = route.split("->");
+				boolean alreadyInRoute = true;
+				while (alreadyInRoute) {
+					alreadyInRoute = false;
+					newCity = rng.nextInt(numberOfCities);
+					for(int j = 0; j < splitRoute.length; j++) {
+						if(newCity.toString().equals(splitRoute[j])) {
+							alreadyInRoute = true;
+						}
+					}
 				}
-				route += newCityCharacter;
+				if(i+1 != numberOfCities) {
+					route += newCity + "->";
+				}
+				else {
+					route += newCity;
+				}
+
 			}
 			routeCostTuple.setItemOne(route);
 			routeCostTuple.setItemTwo(getCostOfRoute(route));
