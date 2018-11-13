@@ -13,13 +13,17 @@ public class Main {
 		algorithmMenu();
 		Scanner ui = new Scanner(System.in);
 		System.out.println("Would you like to run another algorithm? [Y/N]");
+		String userInput = "";
+		userInput = ui.nextLine().toString().toUpperCase();
 		while(ui.nextLine().toString().toUpperCase().equals("Y")) {
 			algorithmMenu();
+			userInput = ui.nextLine().toString().toUpperCase();
 		}
 
 	}
 	
 	public static void algorithmMenu() throws CloneNotSupportedException{
+		String filePath = "src/lab/main/test1.csv";
 		Scanner ui = new Scanner(System.in);
 		System.out.println("******** Computational Intelligence - TSP Problem ********");
 		System.out.println("Which algorithm would you like to run?");
@@ -43,9 +47,9 @@ public class Main {
 				System.out.println("Random search selected.");
 				System.out.print("How many seconds would you like to run a random search for?: ");
 				runningSeconds = ui.nextInt();
-				RandomSearch randUlysses = new RandomSearch("src/lab/main/ulysses16.csv");
+				RandomSearch randUlysses = new RandomSearch(filePath);
 				Tuple<String, Double> randUlyResult = randUlysses.timeLimitedRandomSearch(runningSeconds);
-				System.out.println("Best route of Ulysses: " + randUlyResult.getItemOne()  + " with a distance of " + randUlyResult.getItemTwo());
+				System.out.println("Best route found: " + randUlyResult.getItemOne()  + " with a distance of " + randUlyResult.getItemTwo());
 			break;
 			
 			case 2:
@@ -53,7 +57,7 @@ public class Main {
 				System.out.print("How many seconds would you like to run a local search for?: ");
 				runningSeconds = ui.nextInt();
 				LocalSearch ls = new LocalSearch();
-				Tuple<String, Double> twoOpt = ls.twoOptLocalSearch("src/lab/main/ulysses16.csv", runningSeconds);
+				Tuple<String, Double> twoOpt = ls.twoOptLocalSearch(filePath, runningSeconds);
 				System.out.println("Best route of 2Opt is: " + twoOpt.getItemOne() + " with a distance of " + twoOpt.getItemTwo());
 			break;
 			
@@ -63,7 +67,7 @@ public class Main {
 				int populationSize = ui.nextInt();
 				System.out.println("How many generations would you like the algorithm to run for?: ");
 				int numberOfGenerations = ui.nextInt();
-				Genetic gen = new Genetic("src/lab/main/ulysses16.csv", populationSize, numberOfGenerations);
+				Genetic gen = new Genetic(filePath, populationSize, numberOfGenerations);
 				gen.GeneticSearch();
 			break;
 			
@@ -79,7 +83,7 @@ public class Main {
 				int pValue = ui.nextInt();
 				System.out.println("How many members of the pool would you like replaced each generation?: ");
 				int numberToReplace = ui.nextInt();
-				Immune im = new Immune("src/lab/main/ulysses16.csv", poolSize);
+				Immune im = new Immune(filePath, poolSize);
 				im.search(numberOfRuns, numberOfClones, pValue, numberToReplace);
 			break;
 		}
