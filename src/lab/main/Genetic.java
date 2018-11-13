@@ -29,7 +29,7 @@ public class Genetic extends TravellingSalesman {
 			nextGeneration[nextGeneration.length - 1] = population[0];	
 			population = nextGeneration;
 			sortPopulation(population);
-			System.out.println("[Gen: " + i + "] Current best route: " + population[0].getItemOne() + " with a cost of " + population[0].getItemTwo());
+			System.out.println("[Gen: " + (i + 1) + "] Current best route: " + population[0].getItemOne() + " with a cost of " + population[0].getItemTwo());
 		}
 	}
 
