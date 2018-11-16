@@ -42,6 +42,7 @@ public class RandomSearch extends TravellingSalesman {
 		
 		Tuple<String, Double> routeCostTuple = new Tuple<String, Double>("", 0.0);
 		while (routeCost == 0) {
+			//Adds random unique integers to the route until route completed.
 			String route = "";
 			for (int i = 0; i < numberOfCities; i++) {
 				Integer newCity = rng.nextInt(numberOfCities);
@@ -64,6 +65,7 @@ public class RandomSearch extends TravellingSalesman {
 				}
 
 			}
+			//Calculates cost of route and returns the route.
 			routeCostTuple.setItemOne(route);
 			routeCostTuple.setItemTwo(getCostOfRoute(route));
 			if (routeCostTuple.getItemTwo() > 0) {
