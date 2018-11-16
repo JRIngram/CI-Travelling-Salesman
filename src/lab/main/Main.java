@@ -15,15 +15,16 @@ public class Main {
 		System.out.println("Would you like to run another algorithm? [Y/N]");
 		String userInput = "";
 		userInput = ui.nextLine().toString().toUpperCase();
-		while(ui.nextLine().toString().toUpperCase().equals("Y")) {
+		while(userInput.equals("Y")) {
 			algorithmMenu();
+			System.out.println("Would you like to run another algorithm? [Y/N]");
 			userInput = ui.nextLine().toString().toUpperCase();
 		}
 
 	}
 	
 	public static void algorithmMenu() throws CloneNotSupportedException{
-		String filePath = "src/lab/main/test1.csv";
+		String filePath = "src/lab/main/ulysses16.csv";
 		Scanner ui = new Scanner(System.in);
 		System.out.println("******** Computational Intelligence - TSP Problem ********");
 		System.out.println("Which algorithm would you like to run?");
