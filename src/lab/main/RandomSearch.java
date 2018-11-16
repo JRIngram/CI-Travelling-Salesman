@@ -81,7 +81,7 @@ public class RandomSearch extends TravellingSalesman {
 	 * @return
 	 */
 	//TODO Need to create break out if algorithm gets stuck.
-	protected Tuple<String,Double> timeLimitedRandomSearch(double timeRestraint){
+	protected Tuple<String,Double> timeLimitedRandomSearch(double timeRestraint, boolean verbose){
 		//Sets timer.
 		long start = System.currentTimeMillis();
 		long now = System.currentTimeMillis();
@@ -94,7 +94,9 @@ public class RandomSearch extends TravellingSalesman {
 			timeDifference = (now - start) / 1000;
 			if (((randomRoute.getItemTwo() < bestRoute.getItemTwo()) || bestRoute.getItemTwo() == 0.0) && (timeDifference < timeRestraint)) {
 				bestRoute = randomRoute;
-				System.out.println("[" + timeDifference + "] New best route found in RANDOM SEARCH: " + bestRoute.getItemOne() + " with a distance of " + bestRoute.getItemTwo());
+				if(verbose) {
+					System.out.println("[" + timeDifference + "] New best route found in RANDOM SEARCH: " + bestRoute.getItemOne() + " with a distance of " + bestRoute.getItemTwo());
+				}		
 			}
 		}
 		

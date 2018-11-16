@@ -24,7 +24,7 @@ public class Main {
 	}
 	
 	public static void algorithmMenu() throws CloneNotSupportedException{
-		String filePath = "src/lab/main/ulysses16.csv";
+		String filePath = "src/lab/main/test25.csv";
 		Scanner ui = new Scanner(System.in);
 		System.out.println("******** Computational Intelligence - TSP Problem ********");
 		System.out.println("Which algorithm would you like to run?");
@@ -49,7 +49,7 @@ public class Main {
 				System.out.print("How many seconds would you like to run a random search for?: ");
 				runningSeconds = ui.nextInt();
 				RandomSearch randUlysses = new RandomSearch(filePath);
-				Tuple<String, Double> randUlyResult = randUlysses.timeLimitedRandomSearch(runningSeconds);
+				Tuple<String, Double> randUlyResult = randUlysses.timeLimitedRandomSearch(runningSeconds, true);
 				System.out.println("Best route found: " + randUlyResult.getItemOne()  + " with a distance of " + randUlyResult.getItemTwo());
 			break;
 			

@@ -85,7 +85,7 @@ public class LocalSearch {
 		}
 
 		//Creates bestRoute tuple from the best result of a one second random search and calculates local optima from this.
-		Tuple<String, Double> bestRoute = rs.timeLimitedRandomSearch(1);
+		Tuple<String, Double> bestRoute = rs.timeLimitedRandomSearch(1, false);
 		bestRoute = findLocalOptima(start, now, timeRestraint, bestRoute);
 		timeDifference = (now - start) / 1000;
 		System.out.println("[" + timeDifference + "] New best route found from local optima: " + bestRoute.getItemTwo());
@@ -94,7 +94,8 @@ public class LocalSearch {
 		//Searches random neighbourhoods until time restraint is passed.
 		while(timeDifference < timeRestraint){
 			//Creates bestRoute tuple from the best result of a one second random search and calculates local optima from this.
-			Tuple<String, Double> randomLocalOptima = findLocalOptima(start, now, timeRestraint, rs.timeLimitedRandomSearch(1));
+			Tuple<String, Double> randomLocalOptima = findLocalOptima(start, now, timeRestraint, rs.timeLimitedRandomSearch(1, false));
+			now = System.currentTimeMillis();
 			timeDifference = (now - start) / 1000;
 			System.out.println("[" + timeDifference + "] Local optima: " + randomLocalOptima.getItemTwo() + " vs. " + bestRoute.getItemTwo());
 			if(randomLocalOptima.getItemTwo() < bestRoute.getItemTwo()) {
@@ -103,7 +104,6 @@ public class LocalSearch {
 			}
 			now = System.currentTimeMillis();
 			timeDifference = (now - start) / 1000;
-			System.out.println(timeDifference);
 		}
 		timeDifference = (now - start) / 1000;
 		System.out.println("Completed in " + timeDifference + " seconds!");
@@ -155,6 +155,9 @@ public class LocalSearch {
 					break;
 				}
 			}
+			//Calculates time difference.
+			now = System.currentTimeMillis();
+			timeDifference = (now - start) / 1000;
 			System.out.println("[" + timeDifference + "] Current best route in local optima: " + bestLocalRoute.getItemTwo());
 		}
 		return bestLocalRoute;
